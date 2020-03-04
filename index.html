@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Weather</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+</head>
+
+<body>
+    <div class="page-header">
+        <h2 style="font-size:25px ">Weather Man</h2>
+    </div>
+    
+    
+    <form id="modelForm" class="form-inline">
+
+      <div>
+        <div class="form-groupn"></div>
+        <label>Uv Index?</label>
+        <input type="number" class="form-control" placeholder="1-300" id="uvindex" name="uvindex" min="1"
+          max="300" required><br>
+      </div>
+
+
+
+    <div id="result" class="result">
+
+      <button id="submitButton" type="button" class="btn btn-primary">Predict</button>
+
+      <h4 style="color:black">Your predicted hourly guest is:</h4>
+      <div id='reg' style="display:inline;">    </div>
+    </div>
+
+
+    </form>
+
+    
+    
+<!-- /* javascript */ -->
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+  <script>
+    $(document).ready(function () {
+
+      $('#submitButton').on('click', function () {
+        var uvindex= $('#uvindex').val();
+
+        var req = fetch(
+          '/final',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify({ uvindex: uvindex }),
+          })
+
+          // after response get data from json 
+          .then((res) => res.json())
+
+          .then((data) => {
+            console.log(data);
+            // $('#display-0').html(data.result);
+            
+            jQuery('#reg').html('');
+            document.getElementById('reg').innerHTML += '$';
+            document.getElementById('reg').textContent += data.result;    
+              
+             });
+             });
+             });
+    
+    
+</script>  
+    
+</body>
+</html>
+
+
