@@ -12,7 +12,7 @@ import pandas as pd
 
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 #model = pickle.load(open('model.pkl', 'rb'))
 
 @app.route('/')
@@ -24,7 +24,7 @@ def predict(to_predict_list):
     f = pd.read_csv('dk.csv')
 
     #get x and y 
-    x=f[['uvIndex']]
+    x=f[['uvIndex','temperature','visibility','windSpeed']]
     y=f[['guests']]
 
 
@@ -39,7 +39,7 @@ def predict(to_predict_list):
     
     #Predict form data
     to_predict_array = np.array(to_predict_list)
-    to_predict_array=to_predict_array.reshape(-1, 1)
+    to_predict_array=to_predict_array.reshape(1, -1)
     result = regression_model.predict(to_predict_array)
 
     return result[0]
@@ -51,19 +51,24 @@ def final():
     
     print(data['uvindex'])
     uvindex=data['uvindex']
+    temp=data['temp']
+    vis=data['vis']
+    wspeed=data['wspeed']
     
     # # #put everything into int
     uvindex=int(uvindex)
+    temp=int(temp)
+    vis=int(vis)
+    wspeed=int(wspeed)
     
-    to_predict_list = [uvindex]
-    
+    to_predict_list = [uvindex,temp,vis,wspeed]
     result = predict(to_predict_list)   
     result=int(result)
 
     return jsonify({ 
         'result': result
     })
-    
+
 
 if __name__== '__main__':
     port = int(os.environ.get('PORT', 5000))
