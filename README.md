@@ -21,4 +21,4 @@ Tableau workbook: a reporting workbook of visualizations of some significant fin
 
 
 
-Disclaimer: This is the very first prototype of the web app, or more like a proof of concept of the app. The model is not  The accuracy is really low. 
+Disclaimer: This is the very first prototype of the web app, or more like a proof of concept of the app. The model is not trained well. The accuracy is really low. 
